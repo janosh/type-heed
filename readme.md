@@ -5,7 +5,7 @@
 [![Requires Python 3.8+](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org/downloads)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
-Python code formatter (and [`pre-commit`](https://pre-commit.com) hook) for auto-removing [`mypy`](https://github.com/python/mypy) `#type: ignore` comments from lines that no longer cause type errors.
+Auto-remove unused [`mypy`](https://github.com/python/mypy) `# type: ignore` comments from Python files. Can be used as a [`pre-commit`](https://pre-commit.com) hook.
 
 ## Installation
 

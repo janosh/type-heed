@@ -17,12 +17,11 @@ def main(argv: Sequence[str] = []) -> int:
     """The type-heed CLI interface.
 
     Returns:
-        int: 0 if type-heed exits successfully else returns an error code.
+        int: 0 if no files were changed, else returns mypy's exit code.
     """
     parser = ArgumentParser()
 
-    pkg_name = "type-heed"
-    fic_version = version(pkg_name)
+    fic_version = version(pkg_name := "type-heed")
     parser.add_argument(
         "-v", "--version", action="version", version=f"{pkg_name} v{fic_version}"
     )
@@ -40,12 +39,12 @@ def main(argv: Sequence[str] = []) -> int:
     if exit_code == 0:
         return 0
 
-    cases = [err for err in stdout.split("\n") if MYPY_MSG in err]
-
     file_line_map: dict[str, list[int]] = defaultdict(list)
 
-    for case in cases:
-        file_path, line_num, *_ = case.split(":")
+    for line in stdout.split("\n"):  # loop over mypy log
+        if MYPY_MSG not in line:
+            continue
+        file_path, line_num, *_ = line.split(":")
         file_line_map[file_path].append(int(line_num))
 
     for file_path, lines_nums in file_line_map.items():
@@ -54,8 +53,8 @@ def main(argv: Sequence[str] = []) -> int:
         text = file.readlines()
         file.seek(0)  # rewind file pointer back to start of file
 
-        for line in lines_nums:
-            text[line - 1] = IGNORE_RE.sub("\n", text[line - 1])
+        for line_idx in lines_nums:
+            text[line_idx - 1] = IGNORE_RE.sub("\n", text[line_idx - 1])
 
         file.writelines(text)
         file.truncate()  # truncate file content to file handle's current length

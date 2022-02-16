@@ -8,6 +8,10 @@ import type_heed
 
 
 raw_txt = """
+import os  # type: ignore
+
+import unknown_lib  # type: ignore
+
 foo = 5  # type: ignore
 
 bar = "hi"  # type: ignore
@@ -16,6 +20,10 @@ bar = 42  # type: ignore
 """
 
 clean_txt = """
+import os
+
+import unknown_lib  # type: ignore
+
 foo = 5
 
 bar = "hi"
