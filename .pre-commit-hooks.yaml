@@ -1,0 +1,6 @@
+- id: type-heed
+  name: Type heed
+  description: 'Auto-remove mypy type: ignore comments from Python source files.'
+  entry: type-heed
+  language: python
+  types: [python]
