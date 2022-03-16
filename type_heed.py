@@ -13,20 +13,19 @@ MYPY_MSG = 'error: Unused "type: ignore" comment'
 IGNORE_RE = re.compile(r"\s*#\s*type:\s*ignore\s*$", re.I)
 
 
-def main(argv: Sequence[str] = []) -> int:
+def main(argv: Sequence[str] = None) -> int:
     """The type-heed CLI interface.
 
     Returns:
         int: 0 if no files were changed, else returns mypy's exit code.
     """
     parser = ArgumentParser()
+    parser.add_argument("filenames", nargs="*", help="Files to process")
 
     fic_version = version(pkg_name := "type-heed")
     parser.add_argument(
         "-v", "--version", action="version", version=f"{pkg_name} v{fic_version}"
     )
-
-    parser.add_argument("filenames", nargs="*", help="Files to process")
 
     args = parser.parse_args(argv)
 
