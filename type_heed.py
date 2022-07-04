@@ -46,13 +46,13 @@ def main(argv: Sequence[str] = None) -> int:
         file_path, line_num, *_ = line.split(":")
         file_line_map[file_path].append(int(line_num))
 
-    for file_path, lines_nums in file_line_map.items():
+    for file_path, line_nums in file_line_map.items():
         print(f"Rewriting {file_path}")
         file = open(file_path, "r+")
         text = file.readlines()
         file.seek(0)  # rewind file pointer back to start of file
 
-        for line_idx in lines_nums:
+        for line_idx in line_nums:
             text[line_idx - 1] = IGNORE_RE.sub("\n", text[line_idx - 1])
 
         file.writelines(text)
